@@ -24,7 +24,6 @@ a:hover {
 
 body {
   margin: 0;
-  display: flex;
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
@@ -35,3 +34,12 @@ h1 {
   line-height: 1.1;
 }
 
+.grid-layout {
+  display: flex;
+  gap: 5px;
+}
+
+.my-col{
+  display: flex;
+
+}

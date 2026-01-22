@@ -1,5 +1,29 @@
 #root {
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
   text-align: center;
+}
+
+
+.lateral-menu{
+  width: 12vw;
+  background-color: #eeeeee;
+  height: 75vh;
+  padding: 10px;
+}
+
+.page {
+  width: 90vw;
+  height: 75vh;
+  padding: 10px;
+  overflow-y: auto;
+  display: block;
+}
+
+.portal-page {
+  max-width: 95vw !important;
+}
+
+.wrapper{
+  padding: 3px 0;
 }

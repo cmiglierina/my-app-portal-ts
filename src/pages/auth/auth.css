@@ -1,0 +1,54 @@
+.back {
+    background: #e2e2e2;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+  }
+  
+  .div-center {
+    width: 400px;
+    height: 400px;
+    background-color: #fff;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    max-width: 100%;
+    max-height: 100%;
+    overflow: auto;
+    padding: 1em 2em;
+    border-bottom: 3px solid #ccc;
+    border-right: 3px solid #ccc;
+    display: table;
+    border-radius: 7px;
+  }
+  
+  div.content {
+    display: table-cell;
+    vertical-align: middle;
+  }
+
+  .input-div{
+    margin-top: 6px;
+    margin-bottom: 6px;
+  }
+
+  .login-header {
+    text-align: center;
+    
+  }
+
+  .span-error{
+    color: red;
+    font-size: 14px;
+  }
+
+  .login-icon{
+    font-size: 80px;
+    color: rgb(13, 110, 253);
+    
+  }
