@@ -1,0 +1,21 @@
+.div-menu {
+    padding: 1px;
+    text-align: left;
+    font-size: 35px;
+    width: 90%;
+    margin: 0 auto;
+    height: 45px;
+
+}
+
+.nav-btn{
+    width: 100%;
+    text-align: left;
+}
+
+.div-icon {
+    font-size: 40px;
+    padding: 6px;
+    align-items: center;
+    text-align: center;
+}
