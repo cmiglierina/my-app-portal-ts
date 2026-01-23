@@ -6,7 +6,6 @@ import Login from "../pages/auth/Login";
 import Registration from "../pages/auth/Registration";
 import UserPage from "../pages/user/User";
 
-
 const router = createBrowserRouter([
     {
         Component: App,

@@ -2,19 +2,19 @@ import { useState } from 'react';
 import { ToastContainer, Bounce } from 'react-toastify';
 
 import './auth.css'
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 
 function Login() {
 
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
+    const navigate = useNavigate();
 
 
     const handleLogin = async  (e:React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-       
+        navigate('/');
     }
 
     return (
