@@ -1,29 +1,13 @@
 import Table from 'react-bootstrap/Table';
 import UserItem from './UserItem';
+import { useSelector } from 'react-redux';
+import type { User } from '../../model/user';
 
 function UserList() {
 
-    const users = [{
-        id: 1,
-        name: 'Carlo',
-        surname: 'Rossi',
-        email: 'carlo.rossi@unaemail.com',
-        phone: '3401111111'
-    },
-    {
-        id: 2,
-        name: 'Giovanni',
-        surname: 'Bianchi',
-        email: 'giovanni.bianchi@unaemail.com',
-        phone: '3401111111'
-    },
-    {
-        id: 3,
-        name: 'Nadia',
-        surname: 'Rossi',
-        email: 'nadia.rossi@unaemail.com',
-        phone: '3401111111'
-    },];
+
+     const users = useSelector<unknown, User[]>(state => state.userList.usersList);
+    
     return (
         <>
             <div><h2>Dati utenti</h2></div>
