@@ -5,11 +5,11 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useSelector } from 'react-redux';
 import type { User } from '../../model/user';
-
+import type { IRootState } from '../../statemanagement/store';
 
 function UserPage() {
 
-    const account = useSelector<unknown, User>(state => state.user.userData);
+    const account = useSelector<IRootState, User>(state => state.user.userData);
 
     const [name, setName] = useState(account.name);
     const [surname, setSurname] = useState(account.surname);

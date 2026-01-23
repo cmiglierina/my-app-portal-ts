@@ -2,11 +2,12 @@ import Table from 'react-bootstrap/Table';
 import UserItem from './UserItem';
 import { useSelector } from 'react-redux';
 import type { User } from '../../model/user';
+import type { IRootState } from '../../statemanagement/store';
 
 function UserList() {
 
 
-     const users = useSelector<unknown, User[]>(state => state.userList.usersList);
+     const users = useSelector<IRootState, User[]>(state => state.userList.usersList);
     
     return (
         <>
