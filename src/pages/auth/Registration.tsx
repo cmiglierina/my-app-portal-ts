@@ -17,7 +17,6 @@ function Registration() {
     const [confirmPassword, setConfirmPassword] = useState('');
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
-    const erromessage = useAppSelector(state => state.auth.registrationErrormessage);
     const isLoading = useAppSelector(state => state.auth.isLoading);
 
 
