@@ -1,54 +1,113 @@
 .back {
-    background: #e2e2e2;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
-  }
-  
-  .div-center {
-    width: 400px;
-    height: 400px;
-    background-color: #fff;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    max-width: 100%;
-    max-height: 100%;
-    overflow: auto;
-    padding: 1em 2em;
-    border-bottom: 3px solid #ccc;
-    border-right: 3px solid #ccc;
-    display: table;
-    border-radius: 7px;
-  }
-  
-  div.content {
-    display: table-cell;
-    vertical-align: middle;
-  }
+  background: #e2e2e2;
+  width: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+}
 
-  .input-div{
-    margin-top: 6px;
-    margin-bottom: 6px;
-  }
+.div-center {
+  width: 400px;
+  height: 400px;
+  background-color: #fff;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  padding: 1em 2em;
+  border-bottom: 3px solid #ccc;
+  border-right: 3px solid #ccc;
+  display: table;
+  border-radius: 7px;
+}
 
-  .login-header {
-    text-align: center;
-    
-  }
+.div-center-registration {
+  width: 600px;
+  height: 600px;
+  background-color: #fff;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  margin: auto;
+  max-width: 100%;
+  max-height: 100%;
+  overflow: auto;
+  padding: 1em 2em;
+  border-bottom: 3px solid #ccc;
+  border-right: 3px solid #ccc;
+  display: table;
+  border-radius: 7px;
 
-  .span-error{
-    color: red;
-    font-size: 14px;
-  }
+}
 
-  .login-icon{
-    font-size: 80px;
-    color: rgb(13, 110, 253);
-    
-  }
+div.content {
+
+  vertical-align: middle;
+}
+
+.input-div {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
+
+.login-header {
+  text-align: center;
+
+}
+
+.span-error {
+  color: red;
+  font-size: 14px;
+}
+
+.caption {
+  font-size: 15px;
+}
+
+.caption-note {
+  font-size: 12px;
+}
+
+.login-icon {
+  font-size: 80px;
+  color: rgb(13, 110, 253);
+
+}
+
+.registration-data-row {
+  display: flex;
+  margin: 13px auto;
+
+}
+
+.label-col {
+  width: 25%;
+  text-align: left;
+}
+
+.data-col {
+  width: 75%;
+}
+
+.my-form-control {
+  width: 100%;
+  border-radius: 5px;
+  border-width: 1px;
+  border-style: solid;
+  border-color: rgb(222, 226, 230);
+  height: 40px;
+  padding: 5px;
+}
+
+.row-anagrafica div {
+  margin: auto;
+
+}

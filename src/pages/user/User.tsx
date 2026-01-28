@@ -1,23 +1,61 @@
 import './User.css'
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import { useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../statemanagement/storehooks';
+import { setUser, updateFailure, updateUserData } from '../../statemanagement/slices/UserSlice';
+import { useLoaderData, useNavigate } from 'react-router';
+import { Bounce, toast, ToastContainer } from 'react-toastify';
 import type { User } from '../../model/user';
-import type { IRootState } from '../../statemanagement/store';
+
 
 function UserPage() {
 
-    const account = useSelector<IRootState, User>(state => state.user.userData);
 
-    const [name, setName] = useState(account.name);
-    const [surname, setSurname] = useState(account.surname);
-    const [email, setEmail] = useState(account.email);
-    const [cellulare, setCellulare] = useState(account.phone);
 
-    const handlesubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
+    const { records } = useLoaderData();
+    
+    if (records.user) {
+        dispatch(setUser(records.user.payload));
+    }
+    const user = useAppSelector(state => state.user.userData);
+    const tokenExpired = useAppSelector(state => state.user.tokenExpired);
+    const [name, setName] = useState(user?.name);
+    const [surname, setSurname] = useState(user?.surname);
+    const [email, setEmail] = useState(user?.email);
+    const [cellulare, setCellulare] = useState(user?.phone);
+    
+
+    if (records.user) {
+        dispatch(setUser(records.user.payload));
+    }
+    
+
+
+    const handlesubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        const user2update: User = {
+            email: email || '',
+            name,
+            surname,
+            phone: cellulare,
+            id: user?.id
+
+        }
+        try {
+            await dispatch(updateUserData(user2update)).unwrap();
+            toast.success('Utente aggiornato');
+        } catch (error) {
+            console.log('error', error);
+            dispatch(updateFailure('Errore in update'));
+            if ( tokenExpired ) {
+                navigate('/login');
+            }
+
+        }
     };
 
     return (
@@ -25,6 +63,7 @@ function UserPage() {
             <h2>
                 Dati Utente
             </h2>
+            
             <div className='form-wrapper'>
                 <div className="my-form">
                     <Form onSubmit={handlesubmit}>
@@ -53,9 +92,23 @@ function UserPage() {
                         </Button>
                     </Form>
                 </div>
+                <ToastContainer
+                    position="top-center"
+                    autoClose={2500}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick={false}
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="colored"
+                    transition={Bounce}
+                />
             </div>
         </>);
 }
 
 
 export default UserPage;
+

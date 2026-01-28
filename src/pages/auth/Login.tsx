@@ -3,18 +3,36 @@ import { ToastContainer, Bounce } from 'react-toastify';
 
 import './auth.css'
 import { NavLink, useNavigate } from "react-router";
+import { loginFailure, loginUser } from '../../statemanagement/slices/AuthSlice';
+import type { AuthRequest } from '../../model/authmodelst';
+
+import { useAppDispatch, useAppSelector } from '../../statemanagement/storehooks';
 
 function Login() {
 
 
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const isLoading = useAppSelector(state => state.auth.isLoading);
 
 
-    const handleLogin = async  (e:React.FormEvent<HTMLFormElement>) => {
+    const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        navigate('/');
+        if (username && password) {
+            try {
+                const logreq: AuthRequest = { username: username, password };
+                await dispatch(loginUser(logreq)).unwrap();
+                navigate('/');
+            } catch (error) {
+                console.error("error" ,error);
+                console.error("type of error" ,typeof error);
+                dispatch(loginFailure((error instanceof Error || error.message) ? error.message : 'Error on login'));
+            }
+        } else {
+            dispatch(loginFailure('Inserisci sia username che password'));
+        }
     }
 
     return (
@@ -57,12 +75,18 @@ function Login() {
                                     &nbsp;
                                 </div>
                             </div>
-                            <button type="submit" className="btn btn-primary">
-                                Login
-                            </button>
-                            <span className='span-error'></span>
+                            {
+                                isLoading ?
+                                    <button type="submit" className="btn btn-primary" disabled>
+                                        Loading ....
+                                    </button> :
+                                    <button type="submit" className="btn btn-primary">
+                                        Login
+                                    </button>
+                            }
+                            
                             <hr />
-                            Non hai un utenza? <NavLink to='/registration' >Registrati</NavLink><br/>
+                            Non hai un utenza? <NavLink to='/registration' >Registrati</NavLink><br />
                             Non ricordi la password? <NavLink to='#' >Reset password</NavLink>
                         </div>
                     </div>

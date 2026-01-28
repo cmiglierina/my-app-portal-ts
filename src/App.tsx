@@ -4,6 +4,7 @@ import { Outlet } from 'react-router'
 import NavigationBar from './components/navigation/NavigationBar'
 import TopBar from './components/navigation/TopBar'
 import Footer from './components/footer/Footer'
+import ErrorBoundary from './components/error/ErrorBoundary'
 
 function App() {
 
@@ -20,7 +21,10 @@ function App() {
               <div className="wrapper grid-layout">
                 <div className="lateral-menu my-col"><NavigationBar></NavigationBar> </div>
                 <div className="page my-col">
-                  <Outlet/>
+                  <ErrorBoundary>
+
+                    <Outlet />
+                  </ErrorBoundary>
                 </div>
               </div>
             </div>

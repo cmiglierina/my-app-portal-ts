@@ -2,42 +2,36 @@ import { createSlice } from "@reduxjs/toolkit"
 import type { User } from "../../model/user";
 
 
-export interface UserListState  {
-    usersList : User[],
+
+export interface UserListState {
+    usersList?: User[],
+    pending: boolean,
+    isInError: boolean,
+    errorMessage?: string,
+    status?: number
 
 }
 
-const users = [{
-        id: 1,
-        name: 'Carlo',
-        surname: 'Rossi',
-        email: 'carlo.rossi@unaemail.com',
-        phone: '3401111111'
-    },
-    {
-        id: 2,
-        name: 'Giovanni',
-        surname: 'Bianchi',
-        email: 'giovanni.bianchi@unaemail.com',
-        phone: '3401111111'
-    },
-    {
-        id: 3,
-        name: 'Nadia',
-        surname: 'Rossi',
-        email: 'nadia.rossi@unaemail.com',
-        phone: '3401111111'
-    },];
 
-const initialState : UserListState = {
-    usersList : users,
+
+
+
+
+const initialState: UserListState = {
+    usersList: [],
+    pending: false,
+    isInError: false
 }
 
-export const userListSlice = createSlice (
+export const userListSlice = createSlice(
     {
-        name : 'userListSlice',
-        initialState : initialState,
-        reducers : {
+        name: 'userListSlice',
+        initialState: initialState,
+        reducers: {
+            setUserList(state, action) {
+                state.usersList = action.payload;
+            },
+
 
         }
     }
@@ -45,5 +39,5 @@ export const userListSlice = createSlice (
 
 
 
-
+export const {setUserList} = userListSlice.actions;
 export default userListSlice.reducer;
