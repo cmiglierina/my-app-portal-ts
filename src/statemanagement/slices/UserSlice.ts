@@ -1,20 +1,22 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import type { User } from "../../model/user";
-import { updateUser } from "../../service/UserService";
 import { toast } from "react-toastify";
-import secureLocalStorage from "react-secure-storage";
+import userService from "../../service/user/userservice";
+
 
 
 export interface AccountState  {
     userData ?: User,
     pending : boolean,
     status?: number,
-    tokenExpired : boolean
+    tokenExpired : boolean,
+    message?: string,
 
 }
 
 const initialAccountState : AccountState = {
     pending: false,
+    
     tokenExpired : false
 }
 
@@ -28,20 +30,13 @@ export const updateUserData = createAsyncThunk(
     async (userData: User, thunkApi) => {
         try {
 
-            if ( !userData.id) {
 
-                const userid = secureLocalStorage.getItem('userid');
-                if ( userid && typeof userid === 'number') {
-                    userData.id = userid;
-                }
-            }
-            const response = await updateUser(userData);
+            const response = await userService.updateUser(userData);
             if (!response.esito) {
-                return thunkApi.rejectWithValue({ message: response.message, status : response.status } as Rejresponse);
+                return thunkApi.rejectWithValue({ message: response.errormessage, status : response.status } as Rejresponse);
             }
-            
 
-            return response.user;
+            
         } catch (error) {
             return thunkApi.rejectWithValue({message: error instanceof Error ? error.message : 'errore in aggiornamento user', status:500} as Rejresponse ) ;
         }
@@ -61,13 +56,13 @@ export const userSlice = createSlice(
             updateFailure(state,action) {
                 const status = state.status;
                 if ( status ) {
-                    if ( Number(status) === 403 ) {
+                    if ( Number(status) === 403 || Number(status) === 401 ) {
                         state.tokenExpired = true;
                         return;
                     }
 
                 }
-                toast.error(action.payload);
+                toast.error(action.payload.text,{containerId:action.payload.userid});
 
             }
         },
@@ -76,16 +71,15 @@ export const userSlice = createSlice(
                 state.pending = true;
                 state.tokenExpired = false;
                 state.status = 0;
-            }).addCase(updateUserData.fulfilled,(state:AccountState,action) => {
+            }).addCase(updateUserData.fulfilled,(state:AccountState) => {
                 state.pending = false;
                 state.tokenExpired = false;
                 state.status = 200;
-                state.userData = action.payload;
             }).addCase(updateUserData.rejected,(state:AccountState,action) => {
                 state.pending = false;
                 state.tokenExpired = false;
-                state.status = action.payload.status;
-
+                state.status = 500;
+                state.message = action.error.message;
             });
         }
     }

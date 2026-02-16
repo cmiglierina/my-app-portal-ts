@@ -1,37 +1,57 @@
 import { useState } from 'react';
-import { ToastContainer, Bounce } from 'react-toastify';
+import { ToastContainer, Bounce, toast } from 'react-toastify';
 
 import './auth.css'
-import { NavLink, useNavigate } from "react-router";
-import { loginFailure, loginUser } from '../../statemanagement/slices/AuthSlice';
-import type { AuthRequest } from '../../model/authmodel';
+import { useNavigate, useSearchParams } from "react-router";
+import { resetPassowordReducer } from '../../statemanagement/slices/AuthSlice';
+import type { PasswordResetRequest } from '../../model/authmodel';
 
 import { useAppDispatch, useAppSelector } from '../../statemanagement/storehooks';
+import ConfirmMessageModal from '../../components/modal/ConfirmMessageModal';
+import { openPortalModal } from '../../components/modal/Modal';
 
-function Login() {
+function RefreshPassword() {
+    const [searchParams] = useSearchParams();
+
 
 
     const [username, setUsername] = useState('');
+    const token = searchParams.get('token');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
+
     const dispatch = useAppDispatch();
     const navigate = useNavigate();
     const isLoading = useAppSelector(state => state.auth.isLoading);
-
+    const [message, setMessage] = useState('');
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (username && password) {
-            try {
-                const logreq: AuthRequest = { email: username, password };
-                await dispatch(loginUser(logreq)).unwrap();
-                navigate('/');
-            } catch (error) {
-                console.error("error" ,error);
-                console.error("type of error" ,typeof error);
-                dispatch(loginFailure((error instanceof Error ) ? error.message : 'Error on login'));
+        if (token) {
+            if (username && password && confirmPassword && password == confirmPassword) {
+                try {
+                    const req: PasswordResetRequest = {
+                        email: username,
+                        password,
+                        confirmPassword,
+                        token
+                    }
+                    const res = await dispatch(resetPassowordReducer(req)).unwrap();
+                    setMessage(res.payload!.message);
+                    openPortalModal('pwd-reset-message');
+
+
+                } catch (error) {
+                    console.error("error", error);
+                    toast.error("Errore nel reset della password");
+                }
+            } else if (password && confirmPassword && password != confirmPassword) {
+                toast.error("Password e conferma password devono coincidere")
+            } else {
+                toast.error("Dati mancanti");
             }
         } else {
-            dispatch(loginFailure('Inserisci sia username che password'));
+            toast.error("Link non valido");
         }
     }
 
@@ -61,6 +81,7 @@ function Login() {
 
                                 </div>
                             </div>
+
                             <div className="form-group">
                                 <label htmlFor="exampleInputPassword1">Password</label>
                                 <div className='input-div'>
@@ -75,23 +96,38 @@ function Login() {
                                     &nbsp;
                                 </div>
                             </div>
+                            <div className="form-group">
+                                <label htmlFor="exampleInputconfirmPassword">Conferma password</label>
+                                <div className='input-div'>
+                                    <input
+                                        type="password"
+                                        className="form-control"
+                                        id="exampleInputconfirmPassword"
+                                        placeholder="Password"
+                                        onChange={(e) => setConfirmPassword(e.target.value)}
+                                        value={confirmPassword}
+                                    />
+                                    &nbsp;
+                                </div>
+                            </div>
+
                             {
                                 isLoading ?
                                     <button type="submit" className="btn btn-primary" disabled>
                                         Loading ....
                                     </button> :
                                     <button type="submit" className="btn btn-primary">
-                                        Login
+                                        Reset password
                                     </button>
                             }
-                            
+
                             <hr />
-                            Non hai un utenza? <NavLink to='/registration' >Registrati</NavLink><br />
-                            Non ricordi la password? <NavLink to='/forgot-password' >Reset password</NavLink>
+
                         </div>
                     </div>
                 </div>
             </div>
+            <ConfirmMessageModal id="pwd-reset-message" text={message} onConfirm={()=>navigate('/login')}></ConfirmMessageModal>
             <ToastContainer
                 position="top-right"
                 autoClose={5000}
@@ -109,4 +145,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default RefreshPassword;

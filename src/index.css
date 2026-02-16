@@ -43,3 +43,8 @@ h1 {
   display: flex;
 
 }
+
+.float-div-right{
+  position: absolute;
+  right: 0;
+}

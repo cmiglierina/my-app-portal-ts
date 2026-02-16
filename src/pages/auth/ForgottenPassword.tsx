@@ -1,37 +1,39 @@
 import { useState } from 'react';
-import { ToastContainer, Bounce } from 'react-toastify';
+import { ToastContainer, Bounce, toast } from 'react-toastify';
 
 import './auth.css'
-import { NavLink, useNavigate } from "react-router";
-import { loginFailure, loginUser } from '../../statemanagement/slices/AuthSlice';
-import type { AuthRequest } from '../../model/authmodel';
+import { NavLink } from "react-router";
+import { forgotPassowordReducer } from '../../statemanagement/slices/AuthSlice';
+import type { PasswordForgottenRequest } from '../../model/authmodel';
 
 import { useAppDispatch, useAppSelector } from '../../statemanagement/storehooks';
 
-function Login() {
+function ForgottenPassword() {
 
 
     const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
+
     const dispatch = useAppDispatch();
-    const navigate = useNavigate();
+
     const isLoading = useAppSelector(state => state.auth.isLoading);
 
 
     const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        if (username && password) {
+        if (username) {
             try {
-                const logreq: AuthRequest = { email: username, password };
-                await dispatch(loginUser(logreq)).unwrap();
-                navigate('/');
+                const req : PasswordForgottenRequest = {
+                    email : username
+                }
+                await dispatch(forgotPassowordReducer(req)).unwrap();
+                toast.success("Reset password richiesto con successo, controlla la tua email");
             } catch (error) {
                 console.error("error" ,error);
                 console.error("type of error" ,typeof error);
-                dispatch(loginFailure((error instanceof Error ) ? error.message : 'Error on login'));
+                toast.error("Errore nella richiesta reset password");
             }
         } else {
-            dispatch(loginFailure('Inserisci sia username che password'));
+             toast.error('Inserisci la tua email');
         }
     }
 
@@ -61,33 +63,20 @@ function Login() {
 
                                 </div>
                             </div>
-                            <div className="form-group">
-                                <label htmlFor="exampleInputPassword1">Password</label>
-                                <div className='input-div'>
-                                    <input
-                                        type="password"
-                                        className="form-control"
-                                        id="exampleInputPassword1"
-                                        placeholder="Password"
-                                        onChange={(e) => setPassword(e.target.value)}
-                                        value={password}
-                                    />
-                                    &nbsp;
-                                </div>
-                            </div>
+                            
                             {
                                 isLoading ?
                                     <button type="submit" className="btn btn-primary" disabled>
                                         Loading ....
                                     </button> :
                                     <button type="submit" className="btn btn-primary">
-                                        Login
+                                        Richiedi nuova password
                                     </button>
                             }
                             
                             <hr />
-                            Non hai un utenza? <NavLink to='/registration' >Registrati</NavLink><br />
-                            Non ricordi la password? <NavLink to='/forgot-password' >Reset password</NavLink>
+                            <NavLink to='/login' >Torna alla login page</NavLink><br />
+
                         </div>
                     </div>
                 </div>
@@ -109,4 +98,4 @@ function Login() {
     );
 }
 
-export default Login;
+export default ForgottenPassword;

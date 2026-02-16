@@ -5,6 +5,7 @@ import NavigationBar from './components/navigation/NavigationBar'
 import TopBar from './components/navigation/TopBar'
 import Footer from './components/footer/Footer'
 import ErrorBoundary from './components/error/ErrorBoundary'
+import { Bounce, ToastContainer } from 'react-toastify'
 
 function App() {
 
@@ -34,6 +35,20 @@ function App() {
           <Col xs={12}> <Footer></Footer> </Col>
         </Row>
       </Container>
+      <ToastContainer
+                  containerId='APP_TOASTIFY'
+                  position="top-center"
+                  autoClose={880}
+                  hideProgressBar={false}
+                  newestOnTop={false}
+                  closeOnClick={false}
+                  rtl={false}
+                  pauseOnFocusLoss
+                  draggable
+                  pauseOnHover
+                  theme="colored"
+                  transition={Bounce}
+              />
     </div>
   )
 }

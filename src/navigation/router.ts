@@ -6,9 +6,9 @@ import Login from "../pages/auth/Login";
 import Registration from "../pages/auth/Registration";
 import UserPage from "../pages/user/User";
 import { authMiddleware, clearSession } from "./middleware";
-import { getAllUSer } from "../service/UserService";
-import { loadUser } from "./loader";
-import { ping } from "../service/AuthService";
+import { loadAllUser, loadUser } from "./loader";
+import ForgottenPassword from "../pages/auth/ForgottenPassword";
+import RefreshPassword from "../pages/auth/RefreshPassword";
 
 
 const router = createBrowserRouter([
@@ -18,24 +18,16 @@ const router = createBrowserRouter([
         children : [
             {
                 path : '/',
-                Component : Home,
-                loader : async () => {
-                    return { records: await ping()}
-                }
+                Component : Home
             },
             {
                 path : '/home',
-                Component : Home,
-                loader : async () => {
-                    return { records: await ping()}
-                }
+                Component : Home
             },
             {
                 path : '/users',
                 Component : UserList,
-                loader : async () => {
-                    return { records: await getAllUSer()}
-                }
+                loader :loadAllUser
             },
             {
                 path : '/user',
@@ -53,6 +45,16 @@ const router = createBrowserRouter([
     {
         path : '/registration',
         Component : Registration,
+        middleware : [clearSession]
+    },
+    {
+        path : '/forgot-password',
+        Component : ForgottenPassword,
+        middleware : [clearSession]
+    },
+    {
+        path : '/reset-password',
+        Component : RefreshPassword,
         middleware : [clearSession]
     }
 ]);

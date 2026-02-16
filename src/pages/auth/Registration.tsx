@@ -1,17 +1,16 @@
 import { useState } from 'react';
-import { Bounce, ToastContainer } from 'react-toastify';
+import { Bounce, ToastContainer, toast } from 'react-toastify';
 import { NavLink, useNavigate } from "react-router";
 import './auth.css'
 import { useAppDispatch, useAppSelector } from '../../statemanagement/storehooks';
 import { registerNewUser, registrationFailure } from '../../statemanagement/slices/AuthSlice';
-import type { User } from '../../model/user';
+import type { AuthRequest } from '../../model/authmodel';
 
 function Registration() {
 
 
     const [username, setUsername] = useState('');
     const [surname, setSurname] = useState('');
-    const [phone, setPhone] = useState('');
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -27,17 +26,19 @@ function Registration() {
         if (username && password && confirmPassword && name && surname && password == confirmPassword) {
             try {
                 console.log("handleRegistration dispatching");
-                const userData: User = {
+                const userData: AuthRequest = {
                     email: username,
                     password,
-                    surname,
-                    name,
-                    phone,
-                    roles: undefined
+                    firstName: name,
+                    lastName: surname
 
                 }
                 await dispatch(registerNewUser(userData)).unwrap();
-                navigate('/login');
+                toast.success("Registrazione avvenuta con successo");
+                setTimeout(() => {
+                    navigate('/login');
+                }, 2000);
+
             } catch (error) {
                 console.error(error);
                 dispatch(registrationFailure(error instanceof Error ? error.message : 'Error on login'));
@@ -111,21 +112,6 @@ function Registration() {
                                 </div>
                                 <div className="registration-data-row">
                                     <div className="registration-data-col label-col">
-                                        <label htmlFor="exampleInputPhone1">Telefono</label>
-                                    </div>
-                                    <div className="registration-data-col data-col">
-                                        <input
-                                            type="text"
-                                            className="my-form-control"
-                                            id="exampleInputPhone1"
-                                            placeholder="Telefono"
-                                            onChange={(e) => setPhone(e.target.value)}
-                                            value={phone}
-                                        />
-                                    </div>
-                                </div>
-                                <div className="registration-data-row">
-                                    <div className="registration-data-col label-col">
                                         <label htmlFor="exampleInputPassword1">Password*</label>
                                     </div>
                                     <div className="registration-data-col data-col">
@@ -174,8 +160,8 @@ function Registration() {
                 </div>
             </div>
             <ToastContainer
-                position="top-right"
-                autoClose={5000}
+                position="top-center"
+                autoClose={1500}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick={false}

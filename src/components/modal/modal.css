@@ -1,0 +1,117 @@
+/* Add padding and center-align text to the container */
+.mod-container {
+    padding: 35px 10px;
+    text-align: center;
+    background-color: rgba(230, 230, 230, 1);
+    border-width: 1px;
+    border-color: #343434;
+    border-style: solid;
+    border-radius: 7px;
+    width: 40%;
+    margin: 1 auto;
+}
+
+.custom-mod-container {
+    padding: 30px 20px;
+    text-align: center;
+    background-color: rgba(240, 240, 240, 1);
+    border-radius: 7px;
+    width: 55%;
+    border-width: 1px;
+    border-color: #343434;
+    border-style: solid;
+    margin: 1 auto;
+
+}
+
+.btn-modal-container {
+    margin: 4px;
+    padding: 2px;
+}
+
+.modal-close-button {
+    font-size: 13px;
+
+}
+
+.custom-modal-header {
+
+    font-size: 10px;
+    display: grid;
+    grid-auto-flow: column;
+    justify-content: end;
+
+}
+
+
+/* The Modal (background) */
+.portal-modal {
+    display: none;
+    justify-content: center;
+    position: fixed;
+    /* Stay in place */
+    z-index: 1;
+    /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100vw;
+    /* Full width */
+    height: 100vh;
+    /* Full height */
+    overflow: auto;
+    /* Enable scroll if needed */
+    background-color: rgba(190, 190, 190, .6);
+    padding-top: 10px;
+    text-align: center;
+    align-items: center;
+
+}
+
+
+/* Modal Content/Box */
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto 15% auto;
+    /* 5% from the top, 15% from the bottom and centered */
+    border: 1px solid #888;
+    width: 80%;
+    /* Could be more or less, depending on screen size */
+}
+
+/* Style the horizontal ruler */
+hr {
+    border: 1px solid #f1f1f1;
+    margin-bottom: 25px;
+}
+
+/* The Modal Close Button (x) */
+.close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #f1f1f1;
+}
+
+.close:hover,
+.close:focus {
+    color: #f44336;
+    cursor: pointer;
+}
+
+/* Clear floats */
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.my-modal-icon{
+    font-size: 30px;
+    color: red;
+}
+
+.icon-header {
+    margin: 0;
+}
